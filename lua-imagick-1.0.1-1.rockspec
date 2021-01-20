@@ -1,5 +1,5 @@
 package = "lua-imagick"
-version = "1.0.0-1"
+version = "1.0.1-1"
 source = {
    url = "git+ssh://git@github.com/mna/lua-imagick.git"
 }

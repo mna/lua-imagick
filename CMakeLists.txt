@@ -5,54 +5,18 @@ project(imagick)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
-option(USE_LUA "Use Lua (also called 'C' Lua) version 5.1 includes" OFF)
-option(USE_LUA52 "Use Lua (also called 'C' Lua) version 5.2 includes" OFF)
-option(USE_LUA54 "Use Lua (also called 'C' Lua) version 5.4 includes" OFF)
-option(USE_LUAJIT "Use LuaJIT includes instead of 'C' Lua ones (default)" ON)
-
-if(USE_LUA)
-    find_package(Lua51 REQUIRED)
-    set(USE_LUA52 OFF)
-    set(USE_LUA54 OFF)
-    set(USE_LUAJIT OFF)
-    set(LUA_COMMAND "lua")
-elseif(USE_LUA52)
-    find_package(Lua52 REQUIRED)
-    set(USE_LUA OFF)
-    set(USE_LUA54 OFF)
-    set(USE_LUAJIT OFF)
-    set(LUA_COMMAND "lua")
-elseif(USE_LUA54)
-    find_package(Lua54 REQUIRED)
-    set(USE_LUA OFF)
-    set(USE_LUA52 OFF)
-    set(USE_LUAJIT OFF)
-    set(LUA_COMMAND "lua")
-elseif(USE_LUAJIT)
-    find_package(LuaJIT REQUIRED)
-    set(USE_LUA52 OFF)
-    set(USE_LUA OFF)
-    set(LUA_COMMAND "luajit")
-endif()
-
-get_filename_component(_lua_lib_dir ${LUA_LIBRARY} PATH)
-
-
 set (imagick_VERSION_MAJOR 1)
 set (imagick_VERSION_MINOR 0)
 
 file(GLOB sources "src/[a-zA-Z]*.c")
 file(GLOB private_headers "src/[a-zA-Z]*.h")
 
-
 include_directories(${imagick_SOURCE_DIR}/src)
-include_directories(${LUA_INCLUDE_DIR})
+include_directories(${LUA_INCDIR})
 
 add_definitions("-Wall")
 
-
 find_package(ImageMagick COMPONENTS MagickWand MagickCore REQUIRED)
-
 
 if(APPLE)
     set(CMAKE_SHARED_MODULE_CREATE_C_FLAGS
@@ -61,16 +25,7 @@ endif()
 
 if(WIN32)
     # Win32 modules need to be linked to the Lua library.
-    target_link_libraries(imagick ${LUA_LIBRARY})
-    set(_lua_module_dir "${_lua_lib_dir}")
-else()
-  if (USE_LUA52)
-    set(_lua_module_dir "${_lua_lib_dir}/lua/5.2")
-  elseif(USE_LUA54)
-    set(_lua_module_dir "${_lua_lib_dir}/lua/5.4")
-  else ()
-    set(_lua_module_dir "${_lua_lib_dir}/lua/5.1")
-  endif ()
+    target_link_libraries(imagick ${LUA_LIBDIR})
 endif()
 
 add_library(imagick MODULE ${sources})
@@ -82,8 +37,7 @@ target_compile_options(imagick PRIVATE -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAG
 target_include_directories(imagick PRIVATE ${ImageMagick_INCLUDE_DIRS})
 target_link_libraries(imagick ${ImageMagick_LIBRARIES})
 
-
-install(TARGETS imagick DESTINATION "${_lua_module_dir}/")
+install(TARGETS imagick DESTINATION "${INST_LIBDIR}")
 
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/tests/
                    COMMAND rm -rf ${CMAKE_BINARY_DIR}/tests/

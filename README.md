@@ -1,6 +1,6 @@
 # Lua IMagick [![Build Status](https://travis-ci.org/isage/lua-imagick.svg?branch=master)](https://travis-ci.org/isage/lua-imagick)
 
-Pure-C lua bindings to ImageMagick
+Pure-C lua bindings to ImageMagick. This fork adjusts the library to be installed with LuaRocks, which also enables support for Lua5.3-5.4.
 
 ## Why?
 
@@ -18,13 +18,13 @@ Because existing FFI-based bindings are hackish and buggy, duh.
 
 ## FAQ
 
-1. Q) Will this work with openresty/nginx-lua?  
+1. Q) Will this work with openresty/nginx-lua?
    A) Yes. But remember, that IM operations **are** blocking.
-2. Q) Is this production ready?  
+2. Q) Is this production ready?
    A) Yes, we're using it for couple of months now without problems.
-3. Q) Is this feature-complete?  
+3. Q) Is this feature-complete?
    A) Hell no. There's lot of uncovered IM api. I've implemented only needed for me api for now.
-4. Q) How do i properly resize animated gif?  
+4. Q) How do i properly resize animated gif?
    A) Firstly, coalesce() it, then resize as usual, then optimize() it back. You really should cache coalesce()'ed image if you resizing it frequently.
 
 ## Requirements
@@ -38,7 +38,7 @@ You can get fresh IM and cmake for ubuntu 12.04/14.04 [here](https://launchpad.n
 
 ## Installation
 
-As easy as  
+As easy as
 ```bash
 mkdir build
 cd build
@@ -47,8 +47,8 @@ make
 make install
 ```
 
-You can also use `make unittest` after make to run tests.  
-By default module compiles with support for luajit  
+You can also use `make unittest` after make to run tests.
+By default module compiles with support for luajit
 For other Lua interpreters see cmake options.
 
 ## Usage
@@ -71,9 +71,9 @@ img:write("out.jpg")
 
 #### imagick.gravity
 
-Gravity values  
-See [here](http://www.imagemagick.org/api/MagickCore/geometry_8h.html#afd1e527b17eba5305ea949fa7c717069)  
-Example  
+Gravity values
+See [here](http://www.imagemagick.org/api/MagickCore/geometry_8h.html#afd1e527b17eba5305ea949fa7c717069)
+Example
 ```lua
 local magick = require "imagick"
 print(magick.gravity["WestGravity"])
@@ -81,9 +81,9 @@ print(magick.gravity["WestGravity"])
 
 #### imagick.interlace
 
-Interlace scheme values  
-See [here](https://www.imagemagick.org/api/MagickCore/image_8h.html#af89b808293a7faf805254d1b01e69dc2)  
-Example  
+Interlace scheme values
+See [here](https://www.imagemagick.org/api/MagickCore/image_8h.html#af89b808293a7faf805254d1b01e69dc2)
+Example
 ```lua
 local magick = require "imagick"
 print(magick.interlace["JPEGInterlace"])
@@ -91,10 +91,10 @@ print(magick.interlace["JPEGInterlace"])
 
 #### imagick.colorspace
 
-Colorspace values  
-See [here](http://www.imagemagick.org/api/MagickCore/colorspace_8h.html#a5d516b430fa42c1f83b557f08128f3c2)  
+Colorspace values
+See [here](http://www.imagemagick.org/api/MagickCore/colorspace_8h.html#a5d516b430fa42c1f83b557f08128f3c2)
 
-Example  
+Example
 ```lua
 local magick = require "imagick"
 print(magick.colorspace["YUVColorspace"])
@@ -102,10 +102,10 @@ print(magick.colorspace["YUVColorspace"])
 
 #### imagick.filters
 
-Scale filters  
-See [here](http://www.imagemagick.org/api/MagickCore/resample_8h.html#a12be80da7313b1cc5a7e1061c0c108ea)  
+Scale filters
+See [here](http://www.imagemagick.org/api/MagickCore/resample_8h.html#a12be80da7313b1cc5a7e1061c0c108ea)
 
-Example  
+Example
 ```lua
 local magick = require "imagick"
 print(magick.filters["LanczosSharpFilter"])
@@ -113,10 +113,10 @@ print(magick.filters["LanczosSharpFilter"])
 
 #### imagick.composite_op
 
-Composite operations  
-See [here](http://www.imagemagick.org/api/MagickCore/composite_8h.html#a55ded0ef54def8597243db2375b987fb)  
+Composite operations
+See [here](http://www.imagemagick.org/api/MagickCore/composite_8h.html#a55ded0ef54def8597243db2375b987fb)
 
-Example  
+Example
 ```lua
 local magick = require "imagick"
 local img = magick.open("input.jpg")
@@ -128,7 +128,7 @@ img:write("out.jpg")
 
 #### imagick.font_style
 
-Font styles  
+Font styles
 
 * UndefinedStyle
 * NormalStyle
@@ -138,7 +138,7 @@ Font styles
 
 #### imagick.text_align
 
-Font align  
+Font align
 
 * UndefinedAlign
 * LeftAlign
@@ -147,24 +147,24 @@ Font align
 
 #### imagick.channel
 
-Color channels  
+Color channels
 See [here](http://www.imagemagick.org/Magick++/Enumerations.html#ChannelType)
 
 #### imagick.distort_method
 
-methods for MagickDistortImage  
+methods for MagickDistortImage
 See [here](https://www.imagemagick.org/api/MagickCore/distort_8h.html#a3f53506aaaafd01ef4d52174edfce258)
 
-Color channels  
+Color channels
 See [here](http://www.imagemagick.org/Magick++/Enumerations.html#ChannelType)
 
 ### imagick functions
 
 #### `<image>image, <string>error = imagick.open(<string> filepath)`
 
-Opens image from given filepath or image definition  
+Opens image from given filepath or image definition
 
-Example  
+Example
 ```lua
 local img = magick.open("input.jpg")  -- open jpg file
 ```
@@ -187,7 +187,7 @@ Create image from pseudo-image definition. See [here](http://www.imagemagick.org
 
 #### `<void> img:destroy()`
 
-Manually free all allocated for image memory.  
+Manually free all allocated for image memory.
 Use with caution. Never call to any image methods afterwards.
 
 ******
@@ -219,14 +219,14 @@ Clone image with all current settings/values
 
 #### `<bool>status, <string>error = img:write(<string> filename)`
 
-Write image to file  
+Write image to file
 _This outputs only first frame_
 
 ******
 
 #### `<bool>status, <string>error = img:write_all(<string> filename,  <bool> join)`
 
-Write all image frames to file  
+Write all image frames to file
 If **join** is **false** this will create sequentaly numbered file for each image frame
 If **join** is **true** this will create one file with all frames (this demends on image format, works with gif, for example)
 
@@ -282,7 +282,7 @@ Get current image interlace scheme
 
 #### `<bool>status, <string>error = img:set_interlace(<int> scheme)`
 
-Set image interlace sheme (See imagick.interlace enum)  
+Set image interlace sheme (See imagick.interlace enum)
 e.g. for Progressive JPEG set it to JPEGInterlace
 
 ******
@@ -313,7 +313,7 @@ Set imagemagick artifact for image
 
 #### `<string>color = img:get_bg_color()`
 
-Get image background color  
+Get image background color
 Returns comma-separated color values.
 
 ******
@@ -379,13 +379,13 @@ Set font to use in annotate, font family string
 ******
 
 #### `<bool>status, <string>error = img:set_font_size(<int> size)`
-  
+
 Set font size to use in annotate
 
 ******
 
 #### `<bool>status, <string>error = img:set_font_style(<int> style)`
-  
+
 Set font style to use in annotate (See imagick.font_style enum)
 
 ******
@@ -404,7 +404,7 @@ Set font align to use in annotate (See imagick.font_align enum)
 
 #### `<bool>status, <string>error = img:annotate(<string> color, <string> text, <int> x, <int> y, <int> angle)`
 
-Annotate image 
+Annotate image
 
 ******
 
@@ -573,7 +573,7 @@ Adjust image levels for channel. Black/white points is 0-100%
 
 #### `<bool>status, <string>error = img:contrast(<bool> sharpen)`
 
-Enhances the intensity differences between the lighter and darker elements of the image.  
+Enhances the intensity differences between the lighter and darker elements of the image.
 Set sharpen to 'true' to increase the image contrast, otherwise the contrast is reduced
 
 ******
@@ -610,7 +610,7 @@ Resample image. See [http://www.imagemagick.org/api/magick-image.php#MagickResam
 
 #### `<bool>status, <string>error = img:scale(<int> width, <int> height)`
 
-Fast scale image 
+Fast scale image
 
 ******
 
@@ -647,13 +647,13 @@ Extent image
 
 #### `<bool>status, <string>error = img:smart_resize(<string> size)`
 
-Smartly resize image.  
+Smartly resize image.
 Format is one of:
 * WxH (Keep aspect-ratio, use higher dimension)
 * WxH^ (Keep aspect-ratio, use lower dimension (crop))
 * WxH! (Ignore aspect-ratio)
 
-It uses Mitchell filter for upscaling/downscaling all formats and Lanczos for downscaling JPEG.  
+It uses Mitchell filter for upscaling/downscaling all formats and Lanczos for downscaling JPEG.
 
 You should use img:extent after it to really crop or add borders (with `img:get_bg_color()`) to image.
 
@@ -680,8 +680,8 @@ Returns 13 <double> variables or nil,<string>error
 
 #### `<bool>status, <string>error = img:distort(<distort_method> method, <array> params, <bool> bestfit)`
 
-Distorts image. See https://www.imagemagick.org/api/magick-image.php#MagickDistortImage  
-Example (http://www.imagemagick.org/Usage/distorts/#arc):  
+Distorts image. See https://www.imagemagick.org/api/magick-image.php#MagickDistortImage
+Example (http://www.imagemagick.org/Usage/distorts/#arc):
 ```lua
 local magick = require "imagick"
 local img = magick.open("rose.jpg")
@@ -695,10 +695,10 @@ img:write("out.jpg")
 
 #### `<bool>status, <string>error = img:threshold(<int> value)`
 
-Apply simultaneous black/white threshold to the image.  
-See https://www.imagemagick.org/api/magick-image.php#MagickThresholdImage  
-See https://www.imagemagick.org/script/command-line-options.php#threshold  
-  
+Apply simultaneous black/white threshold to the image.
+See https://www.imagemagick.org/api/magick-image.php#MagickThresholdImage
+See https://www.imagemagick.org/script/command-line-options.php#threshold
+
 `value` is effective between `0` and `0xffff`
 ```lua
 local magick = require "imagick"
@@ -718,11 +718,11 @@ img:write("out.jpg")
 
 #### `<bool>status, <string>error = img:trim(<int> fuzz)`
 
-Trim an image.  
-This option removes any edges that are exactly the same color as the corner pixels. Use fuzz to make trim remove edges that are nearly the same color as the corner pixels.  
-See https://www.imagemagick.org/api/magick-image.php#MagickTrimImage  
-See https://www.imagemagick.org/script/command-line-options.php#trim  
-  
+Trim an image.
+This option removes any edges that are exactly the same color as the corner pixels. Use fuzz to make trim remove edges that are nearly the same color as the corner pixels.
+See https://www.imagemagick.org/api/magick-image.php#MagickTrimImage
+See https://www.imagemagick.org/script/command-line-options.php#trim
+
 `fuzz` is effective between `0` and `0xffff`
 ```lua
 local magick = require "imagick"
@@ -822,5 +822,5 @@ Epifanov Ivan <isage.dna@gmail.com>
 
 ## Copyright and License
 
-This module is licensed under the WTFPL license.  
+This module is licensed under the WTFPL license.
 (See LICENSE)

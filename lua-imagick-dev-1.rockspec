@@ -6,8 +6,8 @@ source = {
 description = {
   summary = "Pure-C lua bindings to ImageMagick",
   detailed = "Pure-C lua bindings to ImageMagick",
-  homepage = "*** please enter a project homepage ***",
-  license = "*** please specify a license ***"
+  homepage = "https://github.com/isage/lua-imagick",
+  license = "WTFPL"
 }
 build = {
   type = "cmake",
